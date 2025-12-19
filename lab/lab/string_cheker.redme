@@ -1,0 +1,38 @@
+%{
+#include <stdio.h>
+#include <string.h>
+%}
+
+%%
+
+if|else|For|printf    { printf("%s is a keyword\n", yytext); }
+[0-9]+                { printf("%s is a number\n", yytext); }
+[a-zA-Z]+             { printf("%s is a word\n", yytext); }
+.|\n                  { /* ignore other characters */ }
+
+%%
+
+int main() {
+    char line[1024];  // buffer for input
+
+    while(1) {
+        printf("\nEnter the string (or type 'exit' to quit): ");
+        if (!fgets(line, sizeof(line), stdin)) break;  // EOF
+
+        // Remove newline at end if present
+        line[strcspn(line, "\n")] = 0;
+
+        if (strcmp(line, "exit") == 0) break;
+
+        // Feed the line to Lex scanner
+        YY_BUFFER_STATE bp = yy_scan_string(line);
+        yylex();
+        yy_delete_buffer(bp);
+    }
+
+    return 0;
+}
+
+int yywrap() {
+    return 1;
+}
