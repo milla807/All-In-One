@@ -1,7 +1,9 @@
 #include <iostream>
 using namespace std;
 
-void insertAtBack(int arr[], int size, int element);
+//insert element at the back of the array
+
+void insertAtBack(int arr[], int &size, int element);
 
 int main(){
     int arr[10] = {1,2,3,4,5,6};
@@ -18,7 +20,9 @@ int main(){
 }
 
 // Function to insert an element at the back of the array
-void insertAtBack(int arr[], int size, int element){
+//&size is passed by reference to update the size of the array
+
+void insertAtBack(int arr[], int &size, int element){
     arr[size] = element;
     size++;
 }
